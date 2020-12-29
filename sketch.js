@@ -1,49 +1,62 @@
-var fixedRectangle,movingRectangle,rect1,rect2,rect3;
+const Engine = Matter.Engine;
+const World= Matter.World;
+const Bodies = Matter.Bodies;
 
+var engine, world;
+var box1, pig1;
+var backgroundImage
 
-function setup() {
-  createCanvas(800,800);
- fixedRectangle =  createSprite(400, 200, 50, 50);
- movingRectangle = createSprite(400,400,80,80);
+function preload(){
+    backgroundImage = loadImage("sprites/bg.png")
+}
 
- movingRectangle.shapeColor = "blue";
- fixedRectangle.shapeColor = "blue";
- //movingRectangle.velocityY = -4;
- //fixedRectangle.velocityY = 4;
+function setup(){
+    var canvas = createCanvas(1200,400);
+    engine = Engine.create();
+    world = engine.world;
 
- rect1 = createSprite(200,100,60,60);
- rect1.shapeColor = "green";
- rect2 = createSprite(200,170,60,60);
- rect2.shapeColor = "green";
- rect3 = createSprite(200,250,60,60);
- rect3.shapeColor = "green";
+    
+    ground = new Ground(600,height,1200,20)
 
+    box1 = new Box(700,320,70,70);
+    box2 = new Box(920,320,70,70);
+    pig1 = new Pig(810, 350);
+    log1 = new Log(810,260,300, PI/2);
+
+    box3 = new Box(700,240,70,70);
+    box4 = new Box(920,240,70,70);
+    pig3 = new Pig(810, 220);
+
+    log3 =  new Log(810,180,300, PI/2);
+
+    box5 = new Box(810,160,70,70);
+    log4 = new Log(760,120,150, PI/7);
+    log5 = new Log(870,120,150, -PI/7);
+
+    bird = new Bird(100,100);
 
 }
 
-function draw() {
-  background(255,255,255);  
+function draw(){
+    background(backgroundImage);
+    Engine.update(engine);
+    console.log(box2.body.position.x);
+    console.log(box2.body.position.y);
+    console.log(box2.body.angle);
+    box1.display();
+    box2.display();
+    ground.display();
+    pig1.display();
+    log1.display();
 
-movingRectangle.x = mouseX;
-movingRectangle.y = mouseY;
+    box3.display();
+    box4.display();
+    pig3.display();
+    log3.display();
 
-if (isTouch(movingRectangle,rect1)) {
-  rect1.shapeColor = "black";
+    box5.display();
+    log4.display();
+    log5.display();
+
+    bird.display();
 }
-
-if (isTouch(movingRectangle,rect2)) {
-  rect2.velocityY = -4;
-}
-  
-  if (isTouch(movingRectangle,rect3)) {
-    rect3.velocityX = 4;
-    fixedRectangle.velocityX = -4;
-  }
-
-  bouncy(fixedRectangle,rect3);
-
-  drawSprites();
-}
-
-
-
